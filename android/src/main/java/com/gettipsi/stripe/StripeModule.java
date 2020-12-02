@@ -275,7 +275,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
           public void onSuccess(@NonNull PaymentIntentResult result) {
             getReactApplicationContext().removeActivityEventListener(ael);
 
-            StripeIntent.Status resultingStatus = result.getIntent().getOutcome();
+            StripeIntent.Status resultingStatus = result.getIntent().getStatus();
 
             if (Succeeded.equals(resultingStatus) ||
                 RequiresCapture.equals(resultingStatus) ||
@@ -321,7 +321,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
             getReactApplicationContext().removeActivityEventListener(ael);
 
             try {
-              switch (result.getIntent().getOutcome()) {
+              switch (result.getIntent().getStatus()) {
                 case Canceled:
                   // The Setup Intent was canceled, so reject the promise with a predefined code.
                   promise.reject(CANCELLED, "The SetupIntent was canceled by the user.");
@@ -735,7 +735,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
           return null;
         }
 
-        switch (source.getOutcome()) {
+        switch (source.getStatus()) {
           case SourceStatus.CHARGEABLE:
           case SourceStatus.CONSUMED:
             promise.resolve(convertSourceToWritableMap(source));
