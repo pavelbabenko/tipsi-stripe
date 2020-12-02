@@ -79,6 +79,20 @@ const deprecatedMethodsForInstance = (instance) => ({
   // @deprecated use openNativePaySetup
   openApplePaySetup: () => StripeModule.openApplePaySetup(),
 
+
+  // @deprecated
+  createTokenWithBankAccount = (params = {}) => {
+    checkInit(this)
+    checkArgs(
+      types.createTokenWithBankAccountParamsPropTypes,
+      params,
+      'params',
+      'Stripe.createTokenWithBankAccount'
+    )
+    return StripeModule.createTokenWithBankAccount(params)
+  },
+
+
   createTokenWithCard: (params = {}) => {
     checkInit(instance)
     checkArgs(

@@ -260,16 +260,16 @@ class Stripe {
     return StripeModule.createTokenWithCard(params)
   }
 
-  createTokenWithBankAccount = (params = {}) => {
-    checkInit(this)
-    checkArgs(
-      types.createTokenWithBankAccountParamsPropTypes,
-      params,
-      'params',
-      'Stripe.createTokenWithBankAccount'
-    )
-    return StripeModule.createTokenWithBankAccount(params)
-  }
+  // createTokenWithBankAccount = (params = {}) => {
+  //   checkInit(this)
+  //   checkArgs(
+  //     types.createTokenWithBankAccountParamsPropTypes,
+  //     params,
+  //     'params',
+  //     'Stripe.createTokenWithBankAccount'
+  //   )
+  //   return StripeModule.createTokenWithBankAccount(params)
+  // }
 
   createSourceWithParams = (params = {}) => {
     checkInit(this)
