@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.facebook.react.bridge.ActivityEventListener;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -26,9 +25,7 @@ import com.stripe.android.ApiResultCallback;
 import com.stripe.android.AppInfo;
 import com.stripe.android.PaymentIntentResult;
 import com.stripe.android.SetupIntentResult;
-import com.stripe.android.SourceCallback;
 import com.stripe.android.Stripe;
-import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Address;
 import com.stripe.android.model.ConfirmPaymentIntentParams;
 import com.stripe.android.model.ConfirmSetupIntentParams;
@@ -204,8 +201,8 @@ public class StripeModule extends ReactContextBaseJavaModule {
 
       mStripe.createToken(
         createCard(cardData),
-        mPublicKey,
-        new TokenCallback() {
+       // mPublicKey,
+        new ApiResultCallback<Token>() {
           public void onSuccess(Token token) {
             promise.resolve(convertTokenToWritableMap(token));
           }
@@ -227,9 +224,9 @@ public class StripeModule extends ReactContextBaseJavaModule {
 
       mStripe.createBankAccountToken(
         createBankAccount(accountData),
-        mPublicKey,
-        null,
-        new TokenCallback() {
+        // mPublicKey,
+        // null,
+        new ApiResultCallback<Token>() {
           public void onSuccess(Token token) {
             promise.resolve(convertTokenToWritableMap(token));
           }
@@ -278,7 +275,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
           public void onSuccess(@NonNull PaymentIntentResult result) {
             getReactApplicationContext().removeActivityEventListener(ael);
 
-            StripeIntent.Status resultingStatus = result.getIntent().getStatus();
+            StripeIntent.Status resultingStatus = result.getIntent().getOutcome();
 
             if (Succeeded.equals(resultingStatus) ||
                 RequiresCapture.equals(resultingStatus) ||
@@ -324,7 +321,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
             getReactApplicationContext().removeActivityEventListener(ael);
 
             try {
-              switch (result.getIntent().getStatus()) {
+              switch (result.getIntent().getOutcome()) {
                 case Canceled:
                   // The Setup Intent was canceled, so reject the promise with a predefined code.
                   promise.reject(CANCELLED, "The SetupIntent was canceled by the user.");
@@ -433,7 +430,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
 
     ArgCheck.nonNull(sourceParams);
 
-    mStripe.createSource(sourceParams, new SourceCallback() {
+    mStripe.createSource(sourceParams, new ApiResultCallback<Source>() {
       @Override
       public void onError(Exception error) {
         promise.reject(toErrorCode(error));
@@ -738,7 +735,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
           return null;
         }
 
-        switch (source.getStatus()) {
+        switch (source.getOutcome()) {
           case SourceStatus.CHARGEABLE:
           case SourceStatus.CONSUMED:
             promise.resolve(convertSourceToWritableMap(source));
