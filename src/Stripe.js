@@ -238,12 +238,12 @@ class Stripe {
 
   paymentRequestWithStripeElement = (options = {}) => {
     checkInit(this)
-    // checkArgs(
-    //   types.paymentRequestWithCardFormOptionsPropTypes,
-    //   options,
-    //   'options',
-    //   'Stripe.paymentRequestWithStripeElement'
-    // )
+    checkArgs(
+      types.paymentRequestWithStripeElementOptionsPropTypes,
+      options,
+      'options',
+      'Stripe.paymentRequestWithStripeElement'
+    )
     console.log(StripeModule.paymentRequestWithStripeElement);
     console.log(StripeModule);
     return StripeModule.paymentRequestWithStripeElement({
@@ -253,31 +253,17 @@ class Stripe {
   }
 
   paymentRequestWithCardForm = (options = {}) => {
-
     checkInit(this)
-    // checkArgs(
-    //   types.paymentRequestWithCardFormOptionsPropTypes,
-    //   options,
-    //   'options',
-    //   'Stripe.paymentRequestWithStripeElement'
-    // )
-    console.log(StripeModule.paymentRequestWithStripeElement);
-    console.log(StripeModule);
-    return StripeModule.paymentRequestWithStripeElement({
+    checkArgs(
+      types.paymentRequestWithCardFormOptionsPropTypes,
+      options,
+      'options',
+      'Stripe.paymentRequestWithCardForm'
+    )
+    return StripeModule.paymentRequestWithCardForm({
       ...options,
       theme: processTheme(options.theme),
     })
-    // checkInit(this)
-    // checkArgs(
-    //   types.paymentRequestWithCardFormOptionsPropTypes,
-    //   options,
-    //   'options',
-    //   'Stripe.paymentRequestWithCardForm'
-    // )
-    // return StripeModule.paymentRequestWithCardForm({
-    //   ...options,
-    //   theme: processTheme(options.theme),
-    // })
   }
 
   createTokenWithCard = (params = {}) => {
