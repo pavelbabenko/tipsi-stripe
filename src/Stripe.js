@@ -244,6 +244,8 @@ class Stripe {
     //   'options',
     //   'Stripe.paymentRequestWithStripeElement'
     // )
+    console.log(StripeModule.paymentRequestWithStripeElement);
+    console.log(StripeModule);
     return StripeModule.paymentRequestWithStripeElement({
       ...options,
       theme: processTheme(options.theme),
