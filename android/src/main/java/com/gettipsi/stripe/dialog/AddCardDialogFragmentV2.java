@@ -31,7 +31,11 @@ import com.stripe.android.model.Card;
 import com.stripe.android.model.ConfirmPaymentIntentParams;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
+import com.stripe.android.view.CardInputListener;
 import com.stripe.android.view.CardInputWidget;
+import com.stripe.android.view.CardInputListener.FocusField.Companion;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by dmitriy on 11/13/16
@@ -42,12 +46,13 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
   public static final String ERROR_CODE = "errorCode";
   public static final String ERROR_DESCRIPTION = "errorDescription";
   private static final String CCV_INPUT_CLASS_NAME = SecurityCodeText.class.getSimpleName();
+  // private static final String CCV_STRIPE_INPUT_CLASS_NAME = CardInputWidget.
 
   private String errorCode;
   private String errorDescription;
 
   private ProgressBar progressBar;
-  private CreditCardForm from;
+  private CreditCardForm form;
   private ImageView imageFlipedCard;
   private ImageView imageFlipedCardBack;
   private CardInputWidget cardInputWidget;
@@ -128,7 +133,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
   private void bindViews(final View view) {
     progressBar = (ProgressBar) view.findViewById(R.id.buttonProgress);
-    from = (CreditCardForm) view.findViewById(R.id.credit_card_form);
+    form = (CreditCardForm) view.findViewById(R.id.credit_card_form);
     cardInputWidget = (CardInputWidget) view.findViewById((R.id.card_input_widget));
 
     imageFlipedCard = (ImageView) view.findViewById(R.id.imageFlippedCard);
@@ -137,7 +142,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
 
   private void init() {
-    from.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    form.setOnFocusChangeListener(new View.OnFocusChangeListener() {
       @Override
       public void onFocusChange(final View view, boolean b) {
         if (CCV_INPUT_CLASS_NAME.equals(view.getClass().getSimpleName())) {
@@ -169,6 +174,33 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
       }
     });
+
+    cardInputWidget.setCardInputListener(new CardInputListener() {
+      @Override
+      public void onFocusChange(@NotNull String s) {
+        if (s == Companion.FOCUS_CVC) {
+          cardFlipAnimator.showBack();
+        } else {
+          cardFlipAnimator.showFront();
+        }
+      }
+
+      @Override
+      public void onCardComplete() {
+
+      }
+
+      @Override
+      public void onExpirationComplete() {
+
+      }
+
+      @Override
+      public void onCvcComplete() {
+
+      }
+    });
+
 
     cardFlipAnimator = new CardFlipAnimator(getActivity(), imageFlipedCard, imageFlipedCardBack);
     successful = false;
@@ -205,10 +237,10 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
             }
           }
         });
-    }else {
+    } else {
       doneButton.setEnabled(true);
       progressBar.setVisibility(View.GONE);
-     // showToast(errorMessage);
+      // showToast(errorMessage);
     }
 
 /*
