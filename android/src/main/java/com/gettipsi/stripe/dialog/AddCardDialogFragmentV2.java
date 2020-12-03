@@ -212,7 +212,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
     }
 
 
-   /* final CreditCard fromCard = from.getCreditCard();
+   final CreditCard fromCard = from.getCreditCard();
     final Card card = new Card.Builder(
       fromCard.getCardNumber(),
       fromCard.getExpMonth(),
@@ -257,7 +257,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
       doneButton.setEnabled(true);
       progressBar.setVisibility(View.GONE);
       showToast(errorMessage);
-    }*/
+    }
   }
 
   public void showToast(String message) {
