@@ -84,7 +84,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final View view = View.inflate(getActivity(), R.layout.payment_form_fragment_stripe_element, null);
+    final View view = View.inflate(getActivity(), R.layout.payment_form_fragment_two, null);
     final AlertDialog dialog = new AlertDialog.Builder(getActivity())
       .setView(view)
       .setTitle(R.string.gettipsi_card_enter_dialog_title)
