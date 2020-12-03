@@ -28,8 +28,10 @@ import com.gettipsi.stripe.util.Converters;
 import com.gettipsi.stripe.util.Utils;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.model.Card;
+import com.stripe.android.model.ConfirmPaymentIntentParams;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
+import com.stripe.android.view.CardInputWidget;
 
 /**
  * Created by dmitriy on 11/13/16
@@ -48,6 +50,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
   private CreditCardForm from;
   private ImageView imageFlipedCard;
   private ImageView imageFlipedCardBack;
+  private CardInputWidget cardInputWidget;
 
   private volatile Promise promise;
   private boolean successful;
@@ -126,6 +129,8 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
   private void bindViews(final View view) {
     progressBar = (ProgressBar) view.findViewById(R.id.buttonProgress);
     from = (CreditCardForm) view.findViewById(R.id.credit_card_form);
+    cardInputWidget = (CardInputWidget) view.findViewById((R.id.card_input_widget));
+
     imageFlipedCard = (ImageView) view.findViewById(R.id.imageFlippedCard);
     imageFlipedCardBack = (ImageView) view.findViewById(R.id.imageFlippedCardBack);
   }
@@ -172,7 +177,42 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
   public void onSaveCLick() {
     doneButton.setEnabled(false);
     progressBar.setVisibility(View.VISIBLE);
-    final CreditCard fromCard = from.getCreditCard();
+
+    PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
+    if (params != null) {
+     /* ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams
+        .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret);
+      stripe.confirmPayment(this, confirmParams); */
+
+      StripeModule.getInstance().getStripe().createPaymentMethod(
+        params,
+        new ApiResultCallback<PaymentMethod>() {
+
+          @Override
+          public void onError(Exception error) {
+            doneButton.setEnabled(true);
+            progressBar.setVisibility(View.GONE);
+            showToast(error.getLocalizedMessage());
+          }
+
+          @Override
+          public void onSuccess(PaymentMethod paymentMethod) {
+            if (promise != null) {
+              promise.resolve(Converters.convertPaymentMethodToWritableMap(paymentMethod));
+              promise = null;
+              successful = true;
+              dismiss();
+            }
+          }
+        });
+    }else {
+      doneButton.setEnabled(true);
+      progressBar.setVisibility(View.GONE);
+     // showToast(errorMessage);
+    }
+
+
+   /* final CreditCard fromCard = from.getCreditCard();
     final Card card = new Card.Builder(
       fromCard.getCardNumber(),
       fromCard.getExpMonth(),
@@ -182,42 +222,42 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
     String errorMessage = Utils.validateCard(card);
     if (errorMessage == null) {
 
-        PaymentMethodCreateParams pmcp = PaymentMethodCreateParams.create(
-          new PaymentMethodCreateParams.Card.Builder().
-            setCvc(fromCard.getSecurityCode()).
-            setExpiryMonth(fromCard.getExpMonth()).
-            setExpiryYear(fromCard.getExpYear()).
-            setNumber(fromCard.getCardNumber()).
-            build(),
-          null);
+      PaymentMethodCreateParams pmcp = PaymentMethodCreateParams.create(
+        new PaymentMethodCreateParams.Card.Builder().
+          setCvc(fromCard.getSecurityCode()).
+          setExpiryMonth(fromCard.getExpMonth()).
+          setExpiryYear(fromCard.getExpYear()).
+          setNumber(fromCard.getCardNumber()).
+          build(),
+        null);
 
-        StripeModule.getInstance().getStripe().createPaymentMethod(
-          pmcp,
-          new ApiResultCallback<PaymentMethod>() {
+      StripeModule.getInstance().getStripe().createPaymentMethod(
+        pmcp,
+        new ApiResultCallback<PaymentMethod>() {
 
-            @Override
-            public void onError(Exception error) {
-              doneButton.setEnabled(true);
-              progressBar.setVisibility(View.GONE);
-              showToast(error.getLocalizedMessage());
+          @Override
+          public void onError(Exception error) {
+            doneButton.setEnabled(true);
+            progressBar.setVisibility(View.GONE);
+            showToast(error.getLocalizedMessage());
+          }
+
+          @Override
+          public void onSuccess(PaymentMethod paymentMethod) {
+            if (promise != null) {
+              promise.resolve(Converters.convertPaymentMethodToWritableMap(paymentMethod));
+              promise = null;
+              successful = true;
+              dismiss();
             }
-
-            @Override
-            public void onSuccess(PaymentMethod paymentMethod) {
-              if (promise != null) {
-                promise.resolve(Converters.convertPaymentMethodToWritableMap(paymentMethod));
-                promise = null;
-                successful = true;
-                dismiss();
-              }
-            }
+          }
         });
 
     } else {
       doneButton.setEnabled(true);
       progressBar.setVisibility(View.GONE);
       showToast(errorMessage);
-    }
+    }*/
   }
 
   public void showToast(String message) {

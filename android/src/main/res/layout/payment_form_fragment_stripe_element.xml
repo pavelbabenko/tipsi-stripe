@@ -48,8 +48,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"/>
 
   <com.stripe.android.view.CardInputWidget
+    android:id="@+id/stripe_card_input"
     android:layout_width="wrap_content"
-    android:layout_height="60dp"/>
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="8dp"/>
 
   <TextView
     android:layout_width="match_parent"
@@ -59,7 +63,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"/>
 
   <com.devmarvel.creditcardentry.library.CreditCardForm
-    android:id="@+id/credit_card_form"
+    android:id="@+id/card_input_widget"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/activity_horizontal_margin"
