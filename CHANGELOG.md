@@ -1,5 +1,15 @@
 # Changelog
 
+## [8.0.12] - 2020-12-03 
+- Replaced android creditCardInput to official Stripe.CardInputWidget
+- Removed createTokenWithBankAccount
+- Bump stripe-android from 10x to 14.5
+- Fix invalid master card series 2, and UnionPay 67xx
+
+### Note:
+- Behaviour change: Previously, the done button will be disable, if any of the input is incomplete or wrong, now it will enable when the input is complete, but won't disable by itself if user makes any changes.
+
+
 ## [8.0.0] - 2019-09-01
 
 ### Android
