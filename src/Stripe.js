@@ -236,28 +236,28 @@ class Stripe {
     })()
 
 
-    paymentRequestWithStripeElement= (options = {}) => {
-      checkInit(this)
-      checkArgs(
-        types.paymentRequestWithCardFormOptionsPropTypes,
-        options,
-        'options',
-        'Stripe.paymentRequestWithStripeElement'
-      )
-      return StripeModule.paymentRequestWithStripeElement({
-        ...options,
-        theme: processTheme(options.theme),
-      })
-    }
-
-  paymentRequestWithCardForm = (options = {}) => {
+  paymentRequestWithStripeElement = (options = {}) => {
     checkInit(this)
     // checkArgs(
     //   types.paymentRequestWithCardFormOptionsPropTypes,
     //   options,
     //   'options',
-    //   'Stripe.paymentRequestWithCardForm'
+    //   'Stripe.paymentRequestWithStripeElement'
     // )
+    return StripeModule.paymentRequestWithStripeElement({
+      ...options,
+      theme: processTheme(options.theme),
+    })
+  }
+
+  paymentRequestWithCardForm = (options = {}) => {
+    checkInit(this)
+    checkArgs(
+      types.paymentRequestWithCardFormOptionsPropTypes,
+      options,
+      'options',
+      'Stripe.paymentRequestWithCardForm'
+    )
     return StripeModule.paymentRequestWithCardForm({
       ...options,
       theme: processTheme(options.theme),
