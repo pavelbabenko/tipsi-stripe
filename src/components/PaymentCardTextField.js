@@ -167,6 +167,7 @@ export default class PaymentCardTextField extends Component {
 
   // Previously on iOS only
   setParams = (params) => {
+    console.log(params);
     this.cardTextFieldRef.setNativeProps({ params })
   }
 

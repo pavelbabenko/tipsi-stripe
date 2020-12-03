@@ -66,10 +66,10 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     final CardInputWidget cardInputWidget = new CardInputWidget(reactContext, attr);
 
 
-     setListeners(cardInputWidget);
+    setListeners(cardInputWidget);
 
     this.reactContext = reactContext;
-   cardInputWidget.post(new Runnable() {
+    cardInputWidget.post(new Runnable() {
       @Override
       public void run() {
         InputMethodManager inputMethodManager = (InputMethodManager) reactContext.getSystemService(reactContext.INPUT_METHOD_SERVICE);
@@ -157,7 +157,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
         Log.d(TAG, "onTextChanged: EXP_YEAR = " + charSequence);
         try {
           currentMonth = view.getCard().getExpMonth();
-        //  currentMonth = view.getCreditCard().getExpMonth();
+          //  currentMonth = view.getCreditCard().getExpMonth();
         } catch (Exception e) {
           if (charSequence.length() == 0)
             currentMonth = 0;
