@@ -17,6 +17,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.gettipsi.stripe.dialog.AddCardDialogFragment;
+import com.gettipsi.stripe.dialog.AddCardDialogFragmentV2;
 import com.gettipsi.stripe.util.ArgCheck;
 import com.gettipsi.stripe.util.Converters;
 import com.gettipsi.stripe.util.Fun0;
@@ -242,6 +243,27 @@ public class StripeModule extends ReactContextBaseJavaModule {
   }
    */
 
+  // Experiment method
+  @ReactMethod
+  public void paymentRequestWithStripeElement(ReadableMap params, final Promise promise) {
+    Activity currentActivity = getCurrentActivity();
+    try {
+      ArgCheck.nonNull(currentActivity);
+      ArgCheck.notEmptyString(mPublicKey);
+
+      final AddCardDialogFragmentV2 cardDialog = AddCardDialogFragmentV2.newInstance(
+        getErrorCode(mErrorCodes, "cancelled"),
+        getDescription(mErrorCodes, "cancelled")
+      );
+      cardDialog.setPromise(promise);
+      cardDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
+    } catch (Exception e) {
+      promise.reject(toErrorCode(e), e.getMessage());
+    }
+  }
+
+
+
   @ReactMethod
   public void paymentRequestWithCardForm(ReadableMap params, final Promise promise) {
     Activity currentActivity = getCurrentActivity();
@@ -259,6 +281,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
       promise.reject(toErrorCode(e), e.getMessage());
     }
   }
+
 
   @ReactMethod
   public void paymentRequestWithAndroidPay(final ReadableMap payParams, final Promise promise) {

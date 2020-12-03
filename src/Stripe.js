@@ -235,6 +235,21 @@ class Stripe {
       android: () => Promise.resolve(),
     })()
 
+
+  paymentRequestWithStripeElement = (options = {}) => {
+    checkInit(this)
+    checkArgs(
+      types.paymentRequestWithCardFormOptionsPropTypes,
+      options,
+      'options',
+      'Stripe.paymentRequestWithStripeElement'
+    )
+    return StripeModule.paymentRequestWithStripeElement({
+      ...options,
+      theme: processTheme(options.theme),
+    })
+  }
+
   paymentRequestWithCardForm = (options = {}) => {
     checkInit(this)
     checkArgs(
