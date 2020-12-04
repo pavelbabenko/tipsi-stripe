@@ -7,8 +7,8 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.EditText;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
-import com.devmarvel.creditcardentry.library.CreditCardForm;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -71,14 +71,14 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     setListeners(cardInputWidget);
 
     this.reactContext = reactContext;
-    cardInputWidget.post(new Runnable() {
-      @Override
-      public void run() {
-        InputMethodManager inputMethodManager = (InputMethodManager) reactContext.getSystemService(reactContext.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInputFromWindow(cardInputWidget.getApplicationWindowToken(), InputMethodManager.SHOW_IMPLICIT, 0);
-        // cardInputWidget.requestFocus();
-      }
-    });
+    // cardInputWidget.post(new Runnable() {
+    //   @Override
+    //   public void run() {
+    //     InputMethodManager inputMethodManager = (InputMethodManager) reactContext.getSystemService(reactContext.INPUT_METHOD_SERVICE);
+    //     inputMethodManager.toggleSoftInputFromWindow(cardInputWidget.getApplicationWindowToken(), InputMethodManager.SHOW_IMPLICIT, 0);
+    //     // cardInputWidget.requestFocus();
+    //   }
+    // });
     return cardInputWidget;
   }
 
@@ -95,7 +95,6 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
   @ReactProp(name = "cardNumber")
   public void setCardNumber(CardInputWidget view, String cardNumber) {
-    // view.setCardNumber(view.getCard().getNumber());
     view.setCardNumber(cardNumber);
   }
 
@@ -108,7 +107,6 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
   @ReactProp(name = "securityCode")
   public void setSecurityCode(CardInputWidget view, String securityCode) {
     view.setCvcCode(securityCode);
-    //  view.setSecurityCode(securityCode, true);
   }
 
   @ReactProp(name = "numberPlaceholder")
@@ -152,15 +150,14 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     view.setCvcNumberTextWatcher(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
       }
 
       @Override
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-      /*  Log.d(TAG, "onTextChanged: EXP_YEAR = " + charSequence);
+        Log.d(TAG, "onTextChanged: EXP_YEAR = " + charSequence);
+
         try {
           currentMonth = view.getCard().getExpMonth();
-          //  currentMonth = view.getCreditCard().getExpMonth();
         } catch (Exception e) {
           if (charSequence.length() == 0)
             currentMonth = 0;
@@ -170,84 +167,16 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
         } catch (Exception e) {
           currentYear = 0;
         }
-        postEvent(view);*/
+
+        postEvent(view);
       }
 
       @Override
       public void afterTextChanged(Editable editable) {
-
       }
     });
 
     view.setCvcNumberTextWatcher(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-      }
-
-      @Override
-      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-       /* Log.d(TAG, "onTextChanged: CCV = " + charSequence);
-        currentCCV = charSequence.toString();
-        postEvent(view);*/
-      }
-
-      @Override
-      public void afterTextChanged(Editable editable) {
-
-      }
-    });
-
-    /*
-    final EditText ccNumberEdit = (EditText) view.findViewById(R.id.cc_card);
-    final EditText ccExpEdit = (EditText) view.findViewById(R.id.cc_exp);
-    final EditText ccCcvEdit = (EditText) view.findViewById(R.id.cc_ccv);
-
-    ccNumberEdit.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-      }
-
-      @Override
-      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d(TAG, "onTextChanged: cardNumber = " + charSequence);
-        currentNumber = charSequence.toString().replaceAll(" ", "");
-        postEvent(view);
-      }
-
-      @Override
-      public void afterTextChanged(Editable editable) {
-      }
-    });
-
-    ccExpEdit.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-      }
-
-      @Override
-      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d(TAG, "onTextChanged: EXP_YEAR = " + charSequence);
-        try {
-          currentMonth = view.getCreditCard().getExpMonth();
-        } catch (Exception e) {
-          if (charSequence.length() == 0)
-            currentMonth = 0;
-        }
-        try {
-          currentYear = view.getCreditCard().getExpYear();
-        } catch (Exception e) {
-          currentYear = 0;
-        }
-        postEvent(view);
-      }
-
-      @Override
-      public void afterTextChanged(Editable editable) {
-      }
-    });
-
-    ccCcvEdit.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
       }
@@ -262,7 +191,8 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
       @Override
       public void afterTextChanged(Editable editable) {
       }
-    });*/
+    });
+
   }
 
   private void postEvent(final CardInputWidget view) {
@@ -275,31 +205,12 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     reactContext
       .getNativeModule(UIManagerModule.class)
       .getEventDispatcher()
-      .dispatchEvent(new Event() {
-        @Override
-        public String getEventName() {
-          return "topChange";
-        }
-
-        @Override
-        public void dispatch(RCTEventEmitter rctEventEmitter) {
-          WritableMap eventData = Arguments.createMap();
-          
-          eventData.putBoolean("valid", true);
-            /*
-          eventData.putMap("params", currentParams);
-           */
-
-          rctEventEmitter.receiveEvent(
-            view.getId(), // getViewTag(),
-            this.getEventName(),
-            eventData
-          );
-        }
-      });
-
+      .dispatchEvent(new CreditCardFormOnChangeEvent(view.getId(), currentParams, true));
   }
 
   private void updateView(CardInputWidget view) {
   }
 }
+
+
+
