@@ -155,7 +155,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
       @Override
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d(TAG, "onTextChanged: EXP_YEAR = " + charSequence);
+      /*  Log.d(TAG, "onTextChanged: EXP_YEAR = " + charSequence);
         try {
           currentMonth = view.getCard().getExpMonth();
           //  currentMonth = view.getCreditCard().getExpMonth();
@@ -168,7 +168,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
         } catch (Exception e) {
           currentYear = 0;
         }
-        postEvent(view);
+        postEvent(view);*/
       }
 
       @Override
@@ -185,9 +185,9 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
       @Override
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d(TAG, "onTextChanged: CCV = " + charSequence);
+       /* Log.d(TAG, "onTextChanged: CCV = " + charSequence);
         currentCCV = charSequence.toString();
-        postEvent(view);
+        postEvent(view);*/
       }
 
       @Override
