@@ -265,7 +265,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     });*/
   }
 
-  private void postEvent(CardInputWidget view) {
+  private void postEvent(final CardInputWidget view) {
     currentParams = Arguments.createMap();
     currentParams.putString(NUMBER, currentNumber);
     currentParams.putInt(EXP_MONTH, currentMonth);
@@ -285,7 +285,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
           eventData.putBoolean("valid", true);
           eventData.putMap("params", currentParams);
           rctEventEmitter.receiveEvent(
-            getViewTag(),
+            view.getId(), // getViewTag(),
             getEventName(),
             eventData
           );
