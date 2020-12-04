@@ -274,10 +274,8 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
     reactContext
       .getNativeModule(UIManagerModule.class)
-      .getEventDispatcher();
-    /*
-    .dispatchEvent(new Event() {
-
+      .getEventDispatcher()
+      .dispatchEvent(new Event() {
         @Override
         public String getEventName() {
           return "topChange";
@@ -285,7 +283,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
         @Override
         public void dispatch(RCTEventEmitter rctEventEmitter) {
-         WritableMap eventData = Arguments.createMap();
+          WritableMap eventData = Arguments.createMap();
           eventData.putBoolean("valid", true);
           eventData.putMap("params", currentParams);
 
@@ -296,17 +294,9 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
           );
         }
       });
-    */
 
-     /* .dispatchEvent(
-        new CreditCardFormOnChangeEvent(
-          view.getId(),
-          currentParams,
-          view.getCard().validateCard())
-      );*/
   }
 
   private void updateView(CardInputWidget view) {
-
   }
 }
