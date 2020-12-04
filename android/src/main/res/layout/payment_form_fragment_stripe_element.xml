@@ -63,7 +63,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"/>
 
   <com.stripe.android.view.FpxBank
-    android:id="@+id/fpxBank"
+    android:id="@+id/fpx_bank"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
 
