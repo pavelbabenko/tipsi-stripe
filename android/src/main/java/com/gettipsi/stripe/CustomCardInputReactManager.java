@@ -271,9 +271,12 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     currentParams.putInt(EXP_MONTH, currentMonth);
     currentParams.putInt(EXP_YEAR, currentYear);
     currentParams.putString(CCV, currentCCV);
-    reactContext.getNativeModule(UIManagerModule.class)
+
+    reactContext
+      .getNativeModule(UIManagerModule.class)
       .getEventDispatcher()
       .dispatchEvent(new Event() {
+
         @Override
         public String getEventName() {
           return "topChange";
@@ -284,11 +287,13 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
           WritableMap eventData = Arguments.createMap();
           eventData.putBoolean("valid", true);
           eventData.putMap("params", currentParams);
+          /*
           rctEventEmitter.receiveEvent(
             view.getId(), // getViewTag(),
-            getEventName(),
+            this.getEventName(),
             eventData
           );
+          */
         }
       });
      /* .dispatchEvent(

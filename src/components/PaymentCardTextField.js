@@ -145,20 +145,21 @@ export default class PaymentCardTextField extends Component {
   }
 
   handleChange = (event) => {
-    const { onChange, onParamsChange } = this.props
-    const { nativeEvent } = event
+    console.log(event);
+    // const { onChange, onParamsChange } = this.props
+    // const { nativeEvent } = event
 
-    this.valid = nativeEvent.valid
-    this.params = nativeEvent.params
+    // this.valid = nativeEvent.valid
+    // this.params = nativeEvent.params
 
-    if (onChange) {
-      // Send the intended parameters back into JS
-      onChange({ ...nativeEvent })
-    }
+    // if (onChange) {
+    //   // Send the intended parameters back into JS
+    //   onChange({ ...nativeEvent })
+    // }
 
-    if (onParamsChange) {
-      onParamsChange(nativeEvent.valid, nativeEvent.params)
-    }
+    // if (onParamsChange) {
+    //   onParamsChange(nativeEvent.valid, nativeEvent.params)
+    // }
   }
 
   setCardTextFieldRef = (node) => {
