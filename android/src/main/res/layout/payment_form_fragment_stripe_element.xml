@@ -55,6 +55,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"/>
 
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/gettipsi_card_number_label"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+  <com.stripe.android.view.FpxBank
+    android:id="@+id/fpxBank"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
   <ProgressBar
     android:id="@+id/buttonProgress"
     android:layout_width="wrap_content"
