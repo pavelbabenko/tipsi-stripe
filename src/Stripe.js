@@ -251,6 +251,23 @@ class Stripe {
     })
   }
 
+
+
+  paymentRequestWithStripeFPX = (options = {}) => {
+    console.log('Calling paymentRequestWithStripeFPX');
+    checkInit(this)
+    checkArgs(
+      types.paymentRequestWithStripeFPXOptionsPropTypes,
+      options,
+      'options',
+      'Stripe.paymentRequestWithStripeFPX'
+    ) 
+    return StripeModule.paymentRequestWithStripeFPX({
+      ...options,
+      theme: processTheme(options.theme),
+    })
+  }
+
   paymentRequestWithCardForm = (options = {}) => {
     checkInit(this)
     checkArgs(
