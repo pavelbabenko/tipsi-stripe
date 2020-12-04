@@ -271,12 +271,12 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     currentParams.putString(CCV, currentCCV);
     reactContext.getNativeModule(UIManagerModule.class)
       .getEventDispatcher()
-      .dispatchEvent(
+     /* .dispatchEvent(
         new CreditCardFormOnChangeEvent(
           view.getId(),
           currentParams,
           view.getCard().validateCard())
-      );
+      );*/
   }
 
   private void updateView(CardInputWidget view) {

@@ -15,8 +15,7 @@ public class CreditCardFormOnChangeEvent extends Event<CreditCardFormOnChangeEve
   private final boolean isValid;
 
   public CreditCardFormOnChangeEvent(int id, WritableMap params, boolean isValid) {
-    // super(id);
-    super();
+    super(id);
     this.params = params;
     this.isValid = isValid;
   }
