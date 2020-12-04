@@ -93,8 +93,8 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
   @ReactProp(name = "cardNumber")
   public void setCardNumber(CardInputWidget view, String cardNumber) {
-    view.setCardNumber(view.getCard().getNumber());
-    // view.setCardNumber(cardNumber);
+    // view.setCardNumber(view.getCard().getNumber());
+     view.setCardNumber(cardNumber);
   }
 
   @ReactProp(name = "expDate")
@@ -137,9 +137,9 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
       @Override
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d(TAG, "onTextChanged: cardNumber = " + charSequence);
+       /* Log.d(TAG, "onTextChanged: cardNumber = " + charSequence);
         currentNumber = charSequence.toString().replaceAll(" ", "");
-        postEvent(view);
+        postEvent(view);*/
       }
 
       @Override
