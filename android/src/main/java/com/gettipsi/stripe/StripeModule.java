@@ -18,7 +18,6 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.gettipsi.stripe.dialog.AddCardDialogFragment;
 import com.gettipsi.stripe.dialog.AddCardDialogFragmentV2;
-import com.gettipsi.stripe.dialog.FpxDialogFragment;
 import com.gettipsi.stripe.util.ArgCheck;
 import com.gettipsi.stripe.util.Converters;
 import com.gettipsi.stripe.util.Fun0;
@@ -37,7 +36,6 @@ import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.StripeIntent;
 import com.stripe.android.model.Token;
-import com.stripe.android.view.AddPaymentMethodActivityStarter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -262,53 +260,6 @@ public class StripeModule extends ReactContextBaseJavaModule {
       promise.reject(toErrorCode(e), e.getMessage());
     }
   }
-
-  // Experiment method
-
-  @ReactMethod
-  public void paymentRequestWithStripeFPX(ReadableMap params, final Promise promise) {
-
-    Activity currentActivity = getCurrentActivity();
-    try {
-      ArgCheck.nonNull(currentActivity);
-      ArgCheck.notEmptyString(mPublicKey);
-
-      final FpxDialogFragment fpxDialog = FpxDialogFragment.newInstance(
-        getErrorCode(mErrorCodes, "cancelled"),
-        getDescription(mErrorCodes, "cancelled")
-      );
-      fpxDialog.setPromise(promise);
-      fpxDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
-    } catch (Exception e) {
-      promise.reject(toErrorCode(e), e.getMessage());
-    }
-
-     /*
-    Activity currentActivity = getCurrentActivity();
-    try {
-      ArgCheck.nonNull(currentActivity);
-      ArgCheck.notEmptyString(mPublicKey);
-
-      new AddPaymentMethodActivityStarter(currentActivity)
-        .startForResult(new AddPaymentMethodActivityStarter.Args.Builder()
-          .setPaymentMethodType(PaymentMethod.Type.Fpx)
-          .build()
-        );
-
-
-
-      final AddCardDialogFragmentV2 cardDialog = AddCardDialogFragmentV2.newInstance(
-        getErrorCode(mErrorCodes, "cancelled"),
-        getDescription(mErrorCodes, "cancelled")
-      );
-      cardDialog.setPromise(promise);
-      cardDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
-
-    } catch (Exception e) {
-      promise.reject(toErrorCode(e), e.getMessage());
-    }   */
-  }
-
 
 
   @ReactMethod

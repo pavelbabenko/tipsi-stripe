@@ -110,19 +110,19 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
   @ReactProp(name = "numberPlaceholder")
   public void setCreditCardTextHint(CardInputWidget view, String creditCardTextHint) {
-    view.setCardHint(creditCardTextHint);
+    // view.setCardHint(creditCardTextHint);
     // view.setCreditCardTextHint(creditCardTextHint);
   }
 
   @ReactProp(name = "expirationPlaceholder")
   public void setExpDateTextHint(CardInputWidget view, String expDateTextHint) {
-    view.setCardHint(expDateTextHint);
+    // view.setCardHint(expDateTextHint);
     // view.setExpDateTextHint(expDateTextHint);
   }
 
   @ReactProp(name = "cvcPlaceholder")
   public void setSecurityCodeTextHint(CardInputWidget view, String securityCodeTextHint) {
-    view.setCardHint(securityCodeTextHint);
+    // view.setCardHint(securityCodeTextHint);
     // view.setSecurityCodeTextHint(securityCodeTextHint);
   }
 
