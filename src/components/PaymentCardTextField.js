@@ -65,18 +65,18 @@ const FieldStylePropType = PropTypes.shape({
 
 const NativePaymentCardTextField = requireNativeComponent('TPSCardField', PaymentCardTextField, {
   nativeOnly: {
-    borderColor: true,
-    borderWidth: true,
-    cornerRadius: true,
-    textColor: true,
-    fontFamily: true,
-    fontWeight: true,
-    fontStyle: true,
-    fontSize: true,
+    //   borderColor: true,
+    //   borderWidth: true,
+    //   cornerRadius: true,
+    //   textColor: true,
+    //   fontFamily: true,
+    //   fontWeight: true,
+    //   fontStyle: true,
+    //   fontSize: true,
     enabled: true,
     onChange: true,
     params: true, // Currently iOS only
-    keyboardAppearance: true, // iOS only
+    //   keyboardAppearance: true, // iOS only
   },
 })
 
