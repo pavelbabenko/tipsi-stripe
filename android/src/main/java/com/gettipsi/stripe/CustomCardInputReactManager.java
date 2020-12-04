@@ -15,6 +15,8 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.events.Event;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.stripe.android.view.CardInputListener;
 import com.stripe.android.view.CardInputWidget;
 
@@ -270,7 +272,25 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     currentParams.putInt(EXP_YEAR, currentYear);
     currentParams.putString(CCV, currentCCV);
     reactContext.getNativeModule(UIManagerModule.class)
-      .getEventDispatcher();
+      .getEventDispatcher()
+      .dispatchEvent(new Event() {
+        @Override
+        public String getEventName() {
+          return "topChange";
+        }
+
+        @Override
+        public void dispatch(RCTEventEmitter rctEventEmitter) {
+          WritableMap eventData = Arguments.createMap();
+          eventData.putBoolean("valid", true);
+          eventData.putMap("params", currentParams);
+          rctEventEmitter.receiveEvent(
+            getViewTag(),
+            getEventName(),
+            eventData
+          );
+        }
+      });
      /* .dispatchEvent(
         new CreditCardFormOnChangeEvent(
           view.getId(),
