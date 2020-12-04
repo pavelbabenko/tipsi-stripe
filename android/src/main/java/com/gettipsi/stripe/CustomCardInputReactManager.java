@@ -74,7 +74,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
       public void run() {
         InputMethodManager inputMethodManager = (InputMethodManager) reactContext.getSystemService(reactContext.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInputFromWindow(cardInputWidget.getApplicationWindowToken(), InputMethodManager.SHOW_IMPLICIT, 0);
-        cardInputWidget.requestFocus();
+        // cardInputWidget.requestFocus();
       }
     });
     return cardInputWidget;
