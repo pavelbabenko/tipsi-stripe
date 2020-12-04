@@ -270,7 +270,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
     currentParams.putInt(EXP_YEAR, currentYear);
     currentParams.putString(CCV, currentCCV);
     reactContext.getNativeModule(UIManagerModule.class)
-      .getEventDispatcher()
+      .getEventDispatcher();
      /* .dispatchEvent(
         new CreditCardFormOnChangeEvent(
           view.getId(),
