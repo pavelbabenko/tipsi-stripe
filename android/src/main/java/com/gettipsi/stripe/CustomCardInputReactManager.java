@@ -141,7 +141,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         Log.d(TAG, "onTextChanged: cardNumber = " + charSequence);
         currentNumber = charSequence.toString().replaceAll(" ", "");
-        // postEvent(view);
+        postEvent(view);
       }
 
       @Override
@@ -274,8 +274,9 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
     reactContext
       .getNativeModule(UIManagerModule.class)
-      .getEventDispatcher()
-      .dispatchEvent(new Event() {
+      .getEventDispatcher();
+    /*
+    .dispatchEvent(new Event() {
 
         @Override
         public String getEventName() {
@@ -284,7 +285,7 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
         @Override
         public void dispatch(RCTEventEmitter rctEventEmitter) {
-          /* WritableMap eventData = Arguments.createMap();
+         WritableMap eventData = Arguments.createMap();
           eventData.putBoolean("valid", true);
           eventData.putMap("params", currentParams);
 
@@ -293,9 +294,10 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
             this.getEventName(),
             eventData
           );
-          */
         }
       });
+    */
+
      /* .dispatchEvent(
         new CreditCardFormOnChangeEvent(
           view.getId(),
