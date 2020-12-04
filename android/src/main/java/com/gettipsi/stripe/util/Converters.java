@@ -24,10 +24,10 @@ import com.stripe.android.model.PaymentIntent;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.SetupIntent;
 import com.stripe.android.model.Source;
-import com.stripe.android.model.SourceCodeVerification;
-import com.stripe.android.model.SourceOwner;
-import com.stripe.android.model.SourceReceiver;
-import com.stripe.android.model.SourceRedirect;
+import com.stripe.android.model.Source.CodeVerification;
+import com.stripe.android.model.Source.Owner;
+import com.stripe.android.model.Source.Receiver;
+import com.stripe.android.model.Source.Redirect;
 import com.stripe.android.model.Token;
 
 import java.util.ArrayList;
@@ -53,9 +53,13 @@ public class Converters {
     if (token.getCard() != null) {
       newToken.putMap("card", convertCardToWritableMap(token.getCard()));
     }
+
+    // Not implement this yet
+    /*
     if (token.getBankAccount() != null) {
       newToken.putMap("bankAccount", convertBankAccountToWritableMap(token.getBankAccount()));
     }
+     */
 
     return newToken;
   }
@@ -108,6 +112,7 @@ public class Converters {
     return result;
   }
 
+  /*
   public static WritableMap convertBankAccountToWritableMap(BankAccount account) {
     WritableMap result = Arguments.createMap();
 
@@ -124,7 +129,7 @@ public class Converters {
     result.putString("last4", account.getLast4());
 
     return result;
-  }
+  }*/
 
   public static String getValue(final ReadableMap map, final String key, final String def) {
     if (map.hasKey(key)) {
@@ -223,17 +228,17 @@ public class Converters {
     newSource.putInt("created", source.getCreated().intValue());
     newSource.putMap("codeVerification", convertCodeVerificationToWritableMap(source.getCodeVerification()));
     newSource.putString("currency", source.getCurrency());
-    newSource.putString("flow", source.getFlow());
+    newSource.putString("flow", source.getFlow().toString());
     newSource.putBoolean("livemode", source.isLiveMode());
     newSource.putMap("metadata", stringMapToWritableMap(source.getMetaData()));
     newSource.putMap("owner", convertOwnerToWritableMap(source.getOwner()));
     newSource.putMap("receiver", convertReceiverToWritableMap(source.getReceiver()));
     newSource.putMap("redirect", convertRedirectToWritableMap(source.getRedirect()));
     newSource.putMap("sourceTypeData", mapToWritableMap(source.getSourceTypeData()));
-    newSource.putString("status", source.getStatus());
+    newSource.putString("status", source.getStatus().toString());
     newSource.putString("type", source.getType());
     newSource.putString("typeRaw", source.getTypeRaw());
-    newSource.putString("usage", source.getUsage());
+    newSource.putString("usage", source.getUsage().toString());
 
     return newSource;
   }
@@ -309,7 +314,7 @@ public class Converters {
 
     // Omitted (can be introduced later): card.checks, card.threeDSecureUsage, card.wallet
 
-    wm.putString("brand", card.brand);
+    wm.putString("brand", card.brand.toString());
     wm.putString("country", card.country);
     wm.putInt("expMonth", card.expiryMonth);
     wm.putInt("expYear", card.expiryYear);
@@ -350,7 +355,7 @@ public class Converters {
   }
 
   @NonNull
-  public static WritableMap convertOwnerToWritableMap(@Nullable final SourceOwner owner) {
+  public static WritableMap convertOwnerToWritableMap(@Nullable final Owner owner) {
     WritableMap map = Arguments.createMap();
 
     if (owner == null) {
@@ -388,7 +393,7 @@ public class Converters {
   }
 
   @NonNull
-  public static WritableMap convertReceiverToWritableMap(@Nullable final SourceReceiver receiver) {
+  public static WritableMap convertReceiverToWritableMap(@Nullable final Receiver receiver) {
     WritableMap map = Arguments.createMap();
 
     if (receiver == null) {
@@ -404,7 +409,7 @@ public class Converters {
   }
 
   @NonNull
-  public static WritableMap convertRedirectToWritableMap(@Nullable SourceRedirect redirect) {
+  public static WritableMap convertRedirectToWritableMap(@Nullable Redirect redirect) {
     WritableMap map = Arguments.createMap();
 
     if (redirect == null) {
@@ -412,14 +417,14 @@ public class Converters {
     }
 
     map.putString("returnUrl", redirect.getReturnUrl());
-    map.putString("status", redirect.getStatus());
+    map.putString("status", redirect.getStatus().toString());
     map.putString("url", redirect.getUrl());
 
     return map;
   }
 
   @NonNull
-  public static WritableMap convertCodeVerificationToWritableMap(@Nullable SourceCodeVerification codeVerification) {
+  public static WritableMap convertCodeVerificationToWritableMap(@Nullable CodeVerification codeVerification) {
     WritableMap map = Arguments.createMap();
 
     if (codeVerification == null) {
@@ -427,7 +432,7 @@ public class Converters {
     }
 
     map.putInt("attemptsRemaining", codeVerification.getAttemptsRemaining());
-    map.putString("status", codeVerification.getStatus());
+    map.putString("status", codeVerification.getStatus().toString());
 
     return map;
   }
