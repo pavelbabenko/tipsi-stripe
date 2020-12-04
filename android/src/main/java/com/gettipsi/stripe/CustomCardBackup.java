@@ -27,10 +27,10 @@ import java.util.Objects;
  * Created by dmitriy on 11/15/16
  */
 
-public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidget> {
+public class CustomCardBackup extends SimpleViewManager<CardInputWidget> {
 
   public static final String REACT_CLASS = "TPSCardField";
-  private static final String TAG = CustomCardInputReactManager.class.getSimpleName();
+  private static final String TAG = CustomCardBackup.class.getSimpleName();
   private static final String NUMBER = "number";
   private static final String EXP_MONTH = "expMonth";
   private static final String EXP_YEAR = "expYear";
