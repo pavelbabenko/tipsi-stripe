@@ -215,7 +215,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
     }
   }
 
-  /*
+/*
   @ReactMethod
   public void createTokenWithBankAccount(final ReadableMap accountData, final Promise promise) {
     try {
@@ -239,7 +239,9 @@ public class StripeModule extends ReactContextBaseJavaModule {
       promise.reject(toErrorCode(e), e.getMessage());
     }
   }
-   */
+  */
+ */
+
 
   // Experiment method
   @ReactMethod
