@@ -240,7 +240,6 @@ public class StripeModule extends ReactContextBaseJavaModule {
     }
   }
   */
- */
 
 
   // Experiment method
