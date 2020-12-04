@@ -19,13 +19,7 @@ import com.facebook.react.bridge.Promise;
 import com.gettipsi.stripe.R;
 import com.gettipsi.stripe.StripeModule;
 import com.gettipsi.stripe.util.CardFlipAnimator;
-import com.gettipsi.stripe.util.Converters;
-import com.stripe.android.ApiResultCallback;
-import com.stripe.android.model.PaymentMethod;
-import com.stripe.android.model.PaymentMethodCreateParams;
-import com.stripe.android.view.CardInputListener;
-import com.stripe.android.view.CardInputWidget;
-import com.stripe.android.view.CardInputListener.FocusField;
+import com.stripe.android.view.AddPaymentMethodActivityStarter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
  * Created by dmitriy on 11/13/16
  */
 
-public class AddCardDialogFragmentV2 extends DialogFragment {
+public class FpxDialogFragment extends DialogFragment {
 
   public static final String ERROR_CODE = "errorCode";
   public static final String ERROR_DESCRIPTION = "errorDescription";
@@ -42,16 +36,14 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
   private String errorDescription;
 
   private ProgressBar progressBar;
-  private ImageView imageFlipedCard;
-  private ImageView imageFlipedCardBack;
-  private CardInputWidget cardInputWidget;
+  private Button selectPaymentButton;
 
   private volatile Promise promise;
   private boolean successful;
   private CardFlipAnimator cardFlipAnimator;
   private Button doneButton;
 
-  public static AddCardDialogFragmentV2 newInstance(
+  public static FpxDialogFragment newInstance(
     final String errorCode,
     final String errorDescription
   ) {
@@ -59,7 +51,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
     args.putString(ERROR_CODE, errorCode);
     args.putString(ERROR_DESCRIPTION, errorDescription);
 
-    AddCardDialogFragmentV2 fragment = new AddCardDialogFragmentV2();
+    FpxDialogFragment fragment = new FpxDialogFragment();
     fragment.setArguments(args);
     return fragment;
   }
@@ -81,7 +73,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final View view = View.inflate(getActivity(), R.layout.payment_form_fragment_stripe_element, null);
+    final View view = View.inflate(getActivity(), R.layout.payment_form_fragment_stripe_fpx, null);
     final AlertDialog dialog = new AlertDialog.Builder(getActivity())
       .setView(view)
       .setTitle(R.string.gettipsi_card_enter_dialog_title)
@@ -122,83 +114,33 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
   private void bindViews(final View view) {
     progressBar = (ProgressBar) view.findViewById(R.id.buttonProgress);
-    cardInputWidget = (CardInputWidget) view.findViewById((R.id.card_input_widget));
-
-    imageFlipedCard = (ImageView) view.findViewById(R.id.imageFlippedCard);
-    imageFlipedCardBack = (ImageView) view.findViewById(R.id.imageFlippedCardBack);
+    selectPaymentButton = (Button) view.findViewById(R.id.select_payment_method_button);
   }
 
 
   private void init() {
-    cardInputWidget.setCardInputListener(new CardInputListener() {
+    selectPaymentButton.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onFocusChange(@NotNull FocusField focusField) {
-        if (focusField == FocusField.Cvc) {
-          cardFlipAnimator.showBack();
-        } else {
-          cardFlipAnimator.showFront();
-        }
-      }
-
-      @Override
-      public void onCardComplete() {
-        // unused
-      }
-
-      @Override
-      public void onExpirationComplete() {
-        // unused
-      }
-
-      @Override
-      public void onCvcComplete() {
-        doneButton.setEnabled(true);
+      public void onClick(View view) {
+        launchAddPaymentMethod();
       }
     });
-
-    cardFlipAnimator = new CardFlipAnimator(getActivity(), imageFlipedCard, imageFlipedCardBack);
     successful = false;
+  }
+
+  private void launchAddPaymentMethod() {
+  /*  new AddPaymentMethodActivityStarter(this)
+      .startForResult(new AddPaymentMethodActivityStarter.Args.Builder()
+        .setPaymentMethodType(PaymentMethod.Type.Fpx)
+        .build()
+      );*/
   }
 
   public void onSaveCLick() {
     doneButton.setEnabled(false);
     progressBar.setVisibility(View.VISIBLE);
 
-    PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
-    if (params != null) {
-      StripeModule.getInstance().getStripe().createPaymentMethod(
-        params,
-        new ApiResultCallback<PaymentMethod>() {
-
-          @Override
-          public void onError(Exception error) {
-            doneButton.setEnabled(true);
-            progressBar.setVisibility(View.GONE);
-            showToast(error.getLocalizedMessage());
-          }
-
-          @Override
-          public void onSuccess(PaymentMethod paymentMethod) {
-            if (promise != null) {
-              promise.resolve(Converters.convertPaymentMethodToWritableMap(paymentMethod));
-              promise = null;
-              successful = true;
-              dismiss();
-            }
-          }
-        });
-    } else {
-      doneButton.setEnabled(true);
-      progressBar.setVisibility(View.GONE);
-      // showToast(errorMessage);
-    }
 
   }
 
-  public void showToast(String message) {
-    Context context = getActivity();
-    if (context != null && !TextUtils.isEmpty(message)) {
-      Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    }
-  }
 }

@@ -33,7 +33,6 @@ import com.stripe.android.model.ConfirmSetupIntentParams;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.model.Source;
-import com.stripe.android.model.Source.SourceStatus;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.StripeIntent;
 import com.stripe.android.model.Token;
@@ -53,7 +52,6 @@ import static com.gettipsi.stripe.util.Converters.convertPaymentMethodToWritable
 import static com.gettipsi.stripe.util.Converters.convertSetupIntentResultToWritableMap;
 import static com.gettipsi.stripe.util.Converters.convertSourceToWritableMap;
 import static com.gettipsi.stripe.util.Converters.convertTokenToWritableMap;
-// import static com.gettipsi.stripe.util.Converters.createBankAccount;
 import static com.gettipsi.stripe.util.Converters.createCard;
 import static com.gettipsi.stripe.util.Converters.getBooleanOrNull;
 import static com.gettipsi.stripe.util.Converters.getMapOrNull;
@@ -463,7 +461,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
 
       @Override
       public void onSuccess(Source source) {
-        if (Source.SourceFlow.REDIRECT.equals(source.getFlow())) {
+        if (Source.Flow.Redirect.equals(source.getFlow())) {
           Activity currentActivity = getCurrentActivity();
           if (currentActivity == null) {
             promise.reject(
@@ -761,18 +759,18 @@ public class StripeModule extends ReactContextBaseJavaModule {
         }
 
         switch (source.getStatus()) {
-          case SourceStatus.CHARGEABLE:
-          case SourceStatus.CONSUMED:
+          case Chargeable:
+          case Consumed:
             promise.resolve(convertSourceToWritableMap(source));
             break;
-          case SourceStatus.CANCELED:
+          case Canceled:
             promise.reject(
               getErrorCode(mErrorCodes, "redirectCancelled"),
               getDescription(mErrorCodes, "redirectCancelled")
             );
             break;
-          case SourceStatus.PENDING:
-          case SourceStatus.FAILED:
+          case Pending:
+          case Failed:
           default:
             promise.reject(
               getErrorCode(mErrorCodes, "redirectFailed"),

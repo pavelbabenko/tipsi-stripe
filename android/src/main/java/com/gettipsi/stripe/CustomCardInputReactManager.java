@@ -98,8 +98,8 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
   @ReactProp(name = "expDate")
   public void setExpDate(CardInputWidget view, String expDate) {
-   /* view.setExpiryDate(expDate);
-    view.setExpDate(expDate, true); */
+    view.setExpiryDate(view.getCard().getExpMonth(), view.getCard().getExpYear());
+    /*  view.setExpDate(expDate, true); */
   }
 
   @ReactProp(name = "securityCode")
