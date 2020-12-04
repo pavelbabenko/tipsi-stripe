@@ -14,11 +14,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.facebook.react.bridge.Promise;
 import com.gettipsi.stripe.R;
 import com.gettipsi.stripe.StripeModule;
 import com.gettipsi.stripe.util.CardFlipAnimator;
+import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.view.AddPaymentMethodActivityStarter;
 
 import org.jetbrains.annotations.NotNull;
@@ -129,11 +131,11 @@ public class FpxDialogFragment extends DialogFragment {
   }
 
   private void launchAddPaymentMethod() {
-  /*  new AddPaymentMethodActivityStarter(this)
+    new AddPaymentMethodActivityStarter(this)
       .startForResult(new AddPaymentMethodActivityStarter.Args.Builder()
         .setPaymentMethodType(PaymentMethod.Type.Fpx)
         .build()
-      );*/
+      );
   }
 
   public void onSaveCLick() {

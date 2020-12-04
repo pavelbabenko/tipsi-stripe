@@ -36,6 +36,7 @@ import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.StripeIntent;
 import com.stripe.android.model.Token;
+import com.stripe.android.view.AddPaymentMethodActivityStarter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -256,6 +257,34 @@ public class StripeModule extends ReactContextBaseJavaModule {
       );
       cardDialog.setPromise(promise);
       cardDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
+    } catch (Exception e) {
+      promise.reject(toErrorCode(e), e.getMessage());
+    }
+  }
+
+  // Experiment method
+  @ReactMethod
+  public void paymentRequestWithStripeFPX(ReadableMap params, final Promise promise) {
+    Activity currentActivity = getCurrentActivity();
+    try {
+      ArgCheck.nonNull(currentActivity);
+      ArgCheck.notEmptyString(mPublicKey);
+
+      new AddPaymentMethodActivityStarter(currentActivity)
+        .startForResult(new AddPaymentMethodActivityStarter.Args.Builder()
+          .setPaymentMethodType(PaymentMethod.Type.Fpx)
+          .build()
+        );
+
+
+      /*
+      final AddCardDialogFragmentV2 cardDialog = AddCardDialogFragmentV2.newInstance(
+        getErrorCode(mErrorCodes, "cancelled"),
+        getDescription(mErrorCodes, "cancelled")
+      );
+      cardDialog.setPromise(promise);
+      cardDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
+       */
     } catch (Exception e) {
       promise.reject(toErrorCode(e), e.getMessage());
     }
