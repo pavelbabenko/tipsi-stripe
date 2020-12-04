@@ -284,10 +284,10 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
         @Override
         public void dispatch(RCTEventEmitter rctEventEmitter) {
-          WritableMap eventData = Arguments.createMap();
+          /* WritableMap eventData = Arguments.createMap();
           eventData.putBoolean("valid", true);
           eventData.putMap("params", currentParams);
-          /*
+
           rctEventEmitter.receiveEvent(
             view.getId(), // getViewTag(),
             this.getEventName(),
