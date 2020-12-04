@@ -93,7 +93,8 @@ public class CustomCardInputReactManager extends SimpleViewManager<CardInputWidg
 
   @ReactProp(name = "cardNumber")
   public void setCardNumber(CardInputWidget view, String cardNumber) {
-    view.setCardNumber(cardNumber);
+    view.setCardNumber(view.getCard().getNumber());
+    // view.setCardNumber(cardNumber);
   }
 
   @ReactProp(name = "expDate")
