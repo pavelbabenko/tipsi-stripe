@@ -253,8 +253,7 @@ class Stripe {
 
 
 
-  paymentRequestWithStripeFPX = (options = {}) => {
-    console.log('Calling paymentRequestWithStripeFPX');
+  paymentRequestWithStripeFPX = (options = {}) => { 
     checkInit(this)
     checkArgs(
       types.paymentRequestWithStripeFPXOptionsPropTypes,

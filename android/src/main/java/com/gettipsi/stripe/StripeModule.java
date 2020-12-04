@@ -18,6 +18,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.gettipsi.stripe.dialog.AddCardDialogFragment;
 import com.gettipsi.stripe.dialog.AddCardDialogFragmentV2;
+import com.gettipsi.stripe.dialog.FpxDialogFragment;
 import com.gettipsi.stripe.util.ArgCheck;
 import com.gettipsi.stripe.util.Converters;
 import com.gettipsi.stripe.util.Fun0;
@@ -263,8 +264,26 @@ public class StripeModule extends ReactContextBaseJavaModule {
   }
 
   // Experiment method
+
   @ReactMethod
   public void paymentRequestWithStripeFPX(ReadableMap params, final Promise promise) {
+
+    Activity currentActivity = getCurrentActivity();
+    try {
+      ArgCheck.nonNull(currentActivity);
+      ArgCheck.notEmptyString(mPublicKey);
+
+      final FpxDialogFragment fpxDialog = FpxDialogFragment.newInstance(
+        getErrorCode(mErrorCodes, "cancelled"),
+        getDescription(mErrorCodes, "cancelled")
+      );
+      fpxDialog.setPromise(promise);
+      fpxDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
+    } catch (Exception e) {
+      promise.reject(toErrorCode(e), e.getMessage());
+    }
+
+     /*
     Activity currentActivity = getCurrentActivity();
     try {
       ArgCheck.nonNull(currentActivity);
@@ -277,17 +296,17 @@ public class StripeModule extends ReactContextBaseJavaModule {
         );
 
 
-      /*
+
       final AddCardDialogFragmentV2 cardDialog = AddCardDialogFragmentV2.newInstance(
         getErrorCode(mErrorCodes, "cancelled"),
         getDescription(mErrorCodes, "cancelled")
       );
       cardDialog.setPromise(promise);
       cardDialog.show(currentActivity.getFragmentManager(), "AddNewCard");
-       */
+
     } catch (Exception e) {
       promise.reject(toErrorCode(e), e.getMessage());
-    }
+    }   */
   }
 
 
