@@ -131,11 +131,13 @@ public class FpxDialogFragment extends DialogFragment {
   }
 
   private void launchAddPaymentMethod() {
-    new AddPaymentMethodActivityStarter(this)
+    /*new AddPaymentMethodActivityStarter(this)
       .startForResult(new AddPaymentMethodActivityStarter.Args.Builder()
         .setPaymentMethodType(PaymentMethod.Type.Fpx)
         .build()
       );
+
+     */
   }
 
   public void onSaveCLick() {
