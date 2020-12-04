@@ -27,7 +27,7 @@ public class CreditCardFormOnChangeEvent extends Event<CreditCardFormOnChangeEve
 
     @Override
     public void dispatch(RCTEventEmitter rctEventEmitter) {
-        rctEventEmitter.receiveEvent(getViewTag(), getEventName(), serializeEventData());
+       // rctEventEmitter.receiveEvent(getViewTag(), getEventName(), serializeEventData());
     }
 
     private WritableMap serializeEventData() {
