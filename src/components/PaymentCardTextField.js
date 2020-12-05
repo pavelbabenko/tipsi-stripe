@@ -3,7 +3,7 @@ import {
   requireNativeComponent,
   findNodeHandle,
   StyleSheet,
-  View,
+  View, 
   TouchableWithoutFeedback,
   ViewPropTypes,
   Platform,
@@ -145,21 +145,20 @@ export default class PaymentCardTextField extends Component {
   }
 
   handleChange = (event) => {
-    console.log(event);
-    // const { onChange, onParamsChange } = this.props
-    // const { nativeEvent } = event
+    const { onChange, onParamsChange } = this.props
+    const { nativeEvent } = event
 
-    // this.valid = nativeEvent.valid
-    // this.params = nativeEvent.params
+    this.valid = nativeEvent.valid
+    this.params = nativeEvent.params
 
-    // if (onChange) {
-    //   // Send the intended parameters back into JS
-    //   onChange({ ...nativeEvent })
-    // }
+    if (onChange) {
+      // Send the intended parameters back into JS
+      onChange({ ...nativeEvent })
+    }
 
-    // if (onParamsChange) {
-    //   onParamsChange(nativeEvent.valid, nativeEvent.params)
-    // }
+    if (onParamsChange) {
+      onParamsChange(nativeEvent.valid, nativeEvent.params)
+    }
   }
 
   setCardTextFieldRef = (node) => {
@@ -224,7 +223,7 @@ export default class PaymentCardTextField extends Component {
           accessible={rest.accessible}
           accessibilityLabel={rest.accessibilityLabel}
           accessibilityTraits={rest.accessibilityTraits}
-        >
+        > 
           <NativePaymentCardTextField
             ref={this.setCardTextFieldRef}
             style={[styles.field, fieldStyles]}
@@ -257,11 +256,27 @@ export default class PaymentCardTextField extends Component {
   }
 }
 
+
+
 const styles = StyleSheet.create({
-  field: {
-    // The field will conform to whatever width is given, but we do
-    // have to set the component's height explicitly on the
-    // surrounding view to ensure it gets rendered.
-    height: 44,
-  },
+  // The field will conform to whatever width is given, but we do
+  // have to set the component's height explicitly on the
+  // surrounding view to ensure it gets rendered.
+  field: Platform.select({
+    ios: {
+      height: 50,
+    },
+    default: {},
+  }),
 })
+
+// const styles = StyleSheet.create({
+//   field: {
+//     // The field will conform to whatever width is given, but we do
+//     // have to set the component's height explicitly on the
+//     // surrounding view to ensure it gets rendered.
+//     height: Platform.OS === 'ios'
+//       ? 44
+//       : 250,
+//   },
+// })

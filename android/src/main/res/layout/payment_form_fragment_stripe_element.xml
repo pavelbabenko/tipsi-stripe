@@ -40,12 +40,15 @@
 
   </FrameLayout>
 
+
+
   <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/gettipsi_card_number_label"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"/>
+
 
   <com.stripe.android.view.CardInputWidget
     android:id="@+id/card_input_widget"
