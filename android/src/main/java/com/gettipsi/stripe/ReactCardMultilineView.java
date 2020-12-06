@@ -45,12 +45,8 @@ public class ReactCardMultilineView extends FrameLayout {
 
     // get card event and send to client
     setListeners(cardInputWidget);
-
-    Button button = new Button(reactContext);
-    button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-    addView(cardInputWidget);
-    addView(button);
+ 
+    addView(cardInputWidget); 
 
   }
 

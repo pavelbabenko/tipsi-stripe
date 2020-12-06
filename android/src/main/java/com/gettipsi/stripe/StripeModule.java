@@ -209,7 +209,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-     public void paymentRequestWithFpx(final Promise promise) {
+    public void paymentRequestWithFpx(final Promise promise) {
         Activity currentActivity = getCurrentActivity();
 
         attachFPXPaymentResultActivityListener(promise);
