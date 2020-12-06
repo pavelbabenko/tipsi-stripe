@@ -269,14 +269,4 @@ const styles = StyleSheet.create({
     default: {},
   }),
 })
-
-// const styles = StyleSheet.create({
-//   field: {
-//     // The field will conform to whatever width is given, but we do
-//     // have to set the component's height explicitly on the
-//     // surrounding view to ensure it gets rendered.
-//     height: Platform.OS === 'ios'
-//       ? 44
-//       : 250,
-//   },
-// })
+ 

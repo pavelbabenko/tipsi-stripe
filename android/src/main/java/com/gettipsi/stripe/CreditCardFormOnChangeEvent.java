@@ -1,5 +1,7 @@
 package com.gettipsi.stripe;
 
+import android.widget.Toast;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.Event;
