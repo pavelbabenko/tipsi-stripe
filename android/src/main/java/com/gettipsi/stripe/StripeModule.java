@@ -198,7 +198,7 @@ public class StripeModule extends ReactContextBaseJavaModule {
       ArgCheck.nonNull(mStripe);
       ArgCheck.notEmptyString(mPublicKey);
 
-      mStripe.createToken(
+      mStripe.createCardToken(
         createCard(cardData),
        // mPublicKey,
         new ApiResultCallback<Token>() {
