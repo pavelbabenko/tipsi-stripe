@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
@@ -11,7 +12,6 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
-import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.stripe.android.view.CardInputListener;
 import com.stripe.android.view.CardMultilineWidget;
 
@@ -46,7 +46,11 @@ public class ReactCardMultilineView extends FrameLayout {
     // get card event and send to client
     setListeners(cardInputWidget);
 
+    Button button = new Button(reactContext);
+    button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
     addView(cardInputWidget);
+    addView(button);
 
   }
 
@@ -61,7 +65,6 @@ public class ReactCardMultilineView extends FrameLayout {
 
 
   private void setListeners(final CardMultilineWidget view) {
-
 
     view.setCardInputListener(new CardInputListener() {
       @Override

@@ -253,15 +253,15 @@ class Stripe {
 
 
 
-  paymentRequestWithStripeFPX = (options = {}) => { 
+  paymentRequestWithFPX = (options = {}) => { 
     checkInit(this)
     checkArgs(
-      types.paymentRequestWithStripeFPXOptionsPropTypes,
+      types.paymentRequestWithFPXOptionsPropTypes,
       options,
       'options',
-      'Stripe.paymentRequestWithStripeFPX'
+      'Stripe.paymentRequestWithFPX'
     ) 
-    return StripeModule.paymentRequestWithStripeFPX({
+    return StripeModule.paymentRequestWithFPX({
       ...options,
       theme: processTheme(options.theme),
     })

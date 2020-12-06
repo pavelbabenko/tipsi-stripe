@@ -146,7 +146,7 @@ export const paymentRequestWithCardFormOptionsPropTypes = {
   }),
 }
 
-export const paymentRequestWithStripeFPXOptionsPropTypes = {
+export const paymentRequestWithFPXOptionsPropTypes = {
   requiredBillingAddressFields: PropTypes.oneOf(['full', 'name', 'zip']),
   smsAutofillDisabled: PropTypes.bool,
   prefilledInformation: PropTypes.shape({
