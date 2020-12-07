@@ -4,6 +4,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -47,6 +48,10 @@ public class ReactCardMultilineView extends FrameLayout {
     cardInputWidget = new CardMultilineWidget(context);
     cardInputWidget.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+    // set this
+    // there is a bug, label is not shown if this is not set
+    cardInputWidget.setUsZipCodeRequired(false);
+
 
     // get card event and send to client
     setListeners(cardInputWidget);
@@ -73,6 +78,7 @@ public class ReactCardMultilineView extends FrameLayout {
 
         @Override
         public void onError(Exception error) {
+          Toast.makeText(reactContext, error.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
 //          doneButton.setEnabled(true);
 //          progressBar.setVisibility(View.GONE);
 //          showToast(error.getLocalizedMessage());
