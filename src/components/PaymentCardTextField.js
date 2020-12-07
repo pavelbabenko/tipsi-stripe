@@ -137,7 +137,12 @@ export default class PaymentCardTextField extends Component {
   //   window.testComponent = this
   // }
 
+  componentDidMount() {
+    this.props.onRef(this)
+  } 
+
   componentWillUnmount() {
+    this.props.onRef(undefined)
     if (this.isFocused()) {
       this.blur()
     }
@@ -181,7 +186,7 @@ export default class PaymentCardTextField extends Component {
     } else {
       promise.reject(error)
     }
-    
+
     this._requestMap.delete(requestId)
   }
 
@@ -206,8 +211,8 @@ export default class PaymentCardTextField extends Component {
     this.valid = nativeEvent.valid
     this.params = nativeEvent.params
 
+    // Send the intended parameters back into JS
     if (onChange) {
-      // Send the intended parameters back into JS
       onChange({ ...nativeEvent })
     }
 
