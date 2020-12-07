@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   ViewPropTypes,
   Platform,
-  UIManager 
+  UIManager
 } from 'react-native'
 import PropTypes from 'prop-types'
 import TextInputState from 'react-native/Libraries/Components/TextInput/TextInputState'
@@ -97,6 +97,8 @@ export default class PaymentCardTextField extends Component {
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
 
+
+
     ...Platform.select({
       ios: {
         cursorColor: PropTypes.string,
@@ -104,7 +106,8 @@ export default class PaymentCardTextField extends Component {
         placeholderColor: PropTypes.string,
         keyboardAppearance: PropTypes.oneOf(['default', 'light', 'dark']),
       },
-      android: {
+      android: {  
+          shouldShowPostalCode: PropTypes.bool,
         setEnabled: PropTypes.bool,
         backgroundColor: PropTypes.string,
         cardNumber: PropTypes.string,
@@ -140,7 +143,7 @@ export default class PaymentCardTextField extends Component {
   // to mimic useImperativeMethod
   componentDidMount() {
     this.props.onRef(this)
-  } 
+  }
 
   componentWillUnmount() {
     this.props.onRef(undefined)
@@ -181,7 +184,7 @@ export default class PaymentCardTextField extends Component {
     // Then we get the promise we saved earlier for the given request ID.
     let promise = this._requestMap[requestId]
 
-    if (result) { 
+    if (result) {
       promise.resolve(result)
     } else {
       promise.reject(error)
@@ -226,7 +229,7 @@ export default class PaymentCardTextField extends Component {
   }
 
   // Previously on iOS only
-  setParams = (params) => { 
+  setParams = (params) => {
     this.cardTextFieldRef.setNativeProps({ params })
   }
 
@@ -234,6 +237,7 @@ export default class PaymentCardTextField extends Component {
     const {
       style,
       disabled,
+      shouldShowPostalCode,
       expDate,
       cardNumber,
       securityCode,
@@ -294,6 +298,7 @@ export default class PaymentCardTextField extends Component {
             style={[styles.field, fieldStyles]}
             borderColor="transparent"
             borderWidth={0}
+          
             cornerRadius={borderRadius}
             textColor={color}
             fontFamily={fontFamily}
@@ -312,12 +317,13 @@ export default class PaymentCardTextField extends Component {
             textErrorColor={textErrorColor}
             placeholderColor={placeholderColor}
             keyboardAppearance={keyboardAppearance}
-            // Android only
+            // Android only 
+             shouldShowPostalCode={shouldShowPostalCode}
             cardNumber={cardNumber}
             expDate={expDate}
             securityCode={securityCode}
           />
-        </TouchableWithoutFeedback> 
+        </TouchableWithoutFeedback>
       </View>
     )
   }
