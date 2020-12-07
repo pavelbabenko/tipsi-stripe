@@ -47,6 +47,7 @@ public class ReactCardMultilineView extends FrameLayout {
     cardInputWidget = new CardMultilineWidget(context);
     cardInputWidget.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+
     // get card event and send to client
     setListeners(cardInputWidget);
 
