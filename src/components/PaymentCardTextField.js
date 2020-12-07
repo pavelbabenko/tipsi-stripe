@@ -137,6 +137,7 @@ export default class PaymentCardTextField extends Component {
   //   window.testComponent = this
   // }
 
+  // to mimic useImperativeMethod
   componentDidMount() {
     this.props.onRef(this)
   } 
@@ -180,8 +181,7 @@ export default class PaymentCardTextField extends Component {
     // Then we get the promise we saved earlier for the given request ID.
     let promise = this._requestMap[requestId]
 
-    if (result) {
-      console.log(result);
+    if (result) { 
       promise.resolve(result)
     } else {
       promise.reject(error)
@@ -226,8 +226,7 @@ export default class PaymentCardTextField extends Component {
   }
 
   // Previously on iOS only
-  setParams = (params) => {
-    console.log(params);
+  setParams = (params) => { 
     this.cardTextFieldRef.setNativeProps({ params })
   }
 
