@@ -170,24 +170,20 @@ export default class PaymentCardTextField extends Component {
    * native event to fake promise
    */
   _onDataReturned = (event) => {
-    // We grab the relevant data out of our event.
     let { requestId, result, error } = event.nativeEvent
 
     // Then we get the promise we saved earlier for the given request ID.
     let promise = this._requestMap[requestId]
+
     if (result) {
       console.log(result);
-      // If it was successful, we resolve the promise.
       promise.resolve(result)
     } else {
-      // Otherwise, we reject it.
       promise.reject(error)
     }
-    // Finally, we clean up our request map.
+    
     this._requestMap.delete(requestId)
   }
-
-
 
   isFocused = () => TextInputState.currentlyFocusedField() === findNodeHandle(this.cardTextFieldRef)
 
