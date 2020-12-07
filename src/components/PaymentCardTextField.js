@@ -7,8 +7,7 @@ import {
   TouchableWithoutFeedback,
   ViewPropTypes,
   Platform,
-  UIManager,
-  Button
+  UIManager 
 } from 'react-native'
 import PropTypes from 'prop-types'
 import TextInputState from 'react-native/Libraries/Components/TextInput/TextInputState'
@@ -317,8 +316,7 @@ export default class PaymentCardTextField extends Component {
             expDate={expDate}
             securityCode={securityCode}
           />
-        </TouchableWithoutFeedback>
-        <Button onPress={this.getPaymentIntent} title="pay pay" />
+        </TouchableWithoutFeedback> 
       </View>
     )
   }
