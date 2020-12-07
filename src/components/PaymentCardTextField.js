@@ -3,10 +3,11 @@ import {
   requireNativeComponent,
   findNodeHandle,
   StyleSheet,
-  View, 
+  View,
   TouchableWithoutFeedback,
   ViewPropTypes,
   Platform,
+  UIManager,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import TextInputState from 'react-native/Libraries/Components/TextInput/TextInputState'
@@ -124,10 +125,94 @@ export default class PaymentCardTextField extends Component {
     cvc: '',
   }
 
+
+  // We need to keep track of all running requests, so we store a counter.
+  _nextRequestId = 1;
+  // We also need to keep track of all the promises we created so we can
+  // resolve them later.
+  _requestMap = new Map();
+
+  constructor() {
+    window.testComponent = this
+  }
+
   componentWillUnmount() {
     if (this.isFocused()) {
       this.blur()
     }
+  }
+
+  getPaymentIntent = () => {
+    // Grab a new request id and our request map.
+    let requestId = this._nextRequestId++;
+    let requestMap = this._requestMap;
+
+    // We create a promise here that will be resolved once _onRequestDone is
+    // called.
+    let promise = new Promise(function (resolve, reject) {
+      requestMap[requestId] = { resolve: resolve, reject: reject };
+    });
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this.cardTextFieldRef),
+      // UIManager.PaymentCardTextField.Commands.getPaymentIntent,
+      UIManager.PaymentCardTextField.Commands.getPaymentIntent,
+      [requestId]
+    )
+
+    return promise;
+  }
+
+
+
+  _onDataReturned = (event) => {
+    // We grab the relevant data out of our event.
+    let { requestId, result, error } = event.nativeEvent
+    console.log(requestId, result);
+    // Then we get the promise we saved earlier for the given request ID.
+    let promise = this._requestMap[requestId]
+    if (result) {
+      // If it was successful, we resolve the promise.
+      promise.resolve(result)
+    } else {
+      // Otherwise, we reject it.
+      promise.reject(error)
+    }
+    // Finally, we clean up our request map.
+    this._requestMap.delete(requestId)
+  }
+
+
+  /**
+ * Gets all annotations of the given type from the page.
+ *
+ * @param pageIndex The page to get the annotations for.
+ * @param type The type of annotations to get (See here for types
+ *        https://pspdfkit.com/guides/server/current/api/json-format/) or
+ *        null to get all annotations.
+ *
+ * @returns A promise resolving an array with the following structure:
+ *          [ instantJson ]
+ */
+  getAnnotations(pageIndex, type) {
+    // Grab a new request id and our request map.
+    let requestId = this._nextRequestId++;
+    let requestMap = this._requestMap;
+
+    // We create a promise here that will be resolved once _onRequestDone is
+    // called.
+    let promise = new Promise(function (resolve, reject) {
+      requestMap[requestId] = { resolve: resolve, reject: reject };
+    });
+
+    // Now just dispatch the command as before, adding the request ID to the
+    // parameters.
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this.cardTextFieldRef),
+      UIManager.PaymentCardTextField.Commands.getAnnotations,
+      [requestId, pageIndex, type]
+    );
+
+    return promise;
   }
 
   isFocused = () => TextInputState.currentlyFocusedField() === findNodeHandle(this.cardTextFieldRef)
@@ -199,6 +284,9 @@ export default class PaymentCardTextField extends Component {
       overflow,
       backgroundColor,
       color,
+      padding,
+      paddingVertical,
+      paddingHorizontal,
       ...fieldStyles
     } = StyleSheet.flatten(style)
 
@@ -212,6 +300,9 @@ export default class PaymentCardTextField extends Component {
       borderWidth,
       borderRadius,
       backgroundColor,
+      padding,
+      paddingVertical,
+      paddingHorizontal,
     }
 
     return (
@@ -223,7 +314,7 @@ export default class PaymentCardTextField extends Component {
           accessible={rest.accessible}
           accessibilityLabel={rest.accessibilityLabel}
           accessibilityTraits={rest.accessibilityTraits}
-        > 
+        >
           <NativePaymentCardTextField
             ref={this.setCardTextFieldRef}
             style={[styles.field, fieldStyles]}
@@ -240,6 +331,8 @@ export default class PaymentCardTextField extends Component {
             expirationPlaceholder={expirationPlaceholder}
             cvcPlaceholder={cvcPlaceholder}
             onChange={this.handleChange}
+            onDataReturned={this._onDataReturned}
+            onPaymentIntent={this._onDataReturned}
             // iOS only
             cursorColor={cursorColor}
             textErrorColor={textErrorColor}
@@ -269,4 +362,6 @@ const styles = StyleSheet.create({
     default: {},
   }),
 })
- 
+
+
+

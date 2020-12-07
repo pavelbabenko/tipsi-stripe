@@ -6,12 +6,15 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.view.CardInputListener;
 import com.stripe.android.view.CardMultilineWidget;
 
@@ -45,8 +48,8 @@ public class ReactCardMultilineView extends FrameLayout {
 
     // get card event and send to client
     setListeners(cardInputWidget);
- 
-    addView(cardInputWidget); 
+
+    addView(cardInputWidget);
 
   }
 
@@ -59,10 +62,21 @@ public class ReactCardMultilineView extends FrameLayout {
     cardInputWidget.setShouldShowPostalCode(enabled);
   }
 
+  public void getPaymentIntent(int requestId) {
+    PaymentMethodCreateParams paymentMethodCreateParams = cardInputWidget.getPaymentMethodCreateParams();
+
+    WritableMap event = Arguments.createMap();
+    event.putInt("requestId", requestId);
+    event.putMap("result", currentParams);
+
+    reactContext.getJSModule(RCTEventEmitter.class)
+      .receiveEvent(getId(), "getPaymentIntent", event);
+  }
 
   private void setListeners(final CardMultilineWidget view) {
 
     view.setCardInputListener(new CardInputListener() {
+
       @Override
       public void onFocusChange(@NotNull FocusField focusField) {
         //

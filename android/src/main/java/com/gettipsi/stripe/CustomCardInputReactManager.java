@@ -62,7 +62,6 @@ public class CustomCardInputReactManager extends  SimpleViewManager<CardMultilin
 
     final CardMultilineWidget cardInputWidget = new CardMultilineWidget(reactContext, attr);
 
-
     setListeners(cardInputWidget);
 
     this.reactContext = reactContext;
