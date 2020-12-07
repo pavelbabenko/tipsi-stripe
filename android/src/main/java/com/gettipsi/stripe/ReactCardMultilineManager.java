@@ -1,15 +1,12 @@
 package com.gettipsi.stripe;
 
 import android.view.View;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.BaseViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.uimanager.events.RCTEventEmitter;
-import com.stripe.android.view.CardMultilineWidget;
 
 import java.util.Map;
 
@@ -20,7 +17,6 @@ public class ReactCardMultilineManager extends BaseViewManager {
   public static final String REACT_CLASS = "TPSCardField";
   private static final int COMMAND_GET_PAYMENT_INTENT = 1;
   private ReactCardMultilineView reactCardMultilineView;
-  private ThemedReactContext reactContext;
 
   @Nonnull
   @Override
@@ -45,7 +41,6 @@ public class ReactCardMultilineManager extends BaseViewManager {
 
 
   public void getPaymentIntent(int requestId) {
-    Toast.makeText(reactContext,"Calling getPayment", Toast.LENGTH_SHORT).show();
     reactCardMultilineView.getPaymentIntent(requestId);
   }
 
@@ -93,7 +88,6 @@ public class ReactCardMultilineManager extends BaseViewManager {
   @Nonnull
   @Override
   protected View createViewInstance(@Nonnull ThemedReactContext reactContext) {
-    this.reactContext = reactContext;
     reactCardMultilineView = new ReactCardMultilineView(reactContext);
     return reactCardMultilineView;
   }
