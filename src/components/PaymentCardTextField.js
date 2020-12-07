@@ -8,6 +8,7 @@ import {
   ViewPropTypes,
   Platform,
   UIManager,
+  Button
 } from 'react-native'
 import PropTypes from 'prop-types'
 import TextInputState from 'react-native/Libraries/Components/TextInput/TextInputState'
@@ -132,9 +133,9 @@ export default class PaymentCardTextField extends Component {
   // resolve them later.
   _requestMap = new Map();
 
-  constructor() {
-    window.testComponent = this
-  }
+  // constructor() {
+  //   window.testComponent = this
+  // }
 
   componentWillUnmount() {
     if (this.isFocused()) {
@@ -152,10 +153,11 @@ export default class PaymentCardTextField extends Component {
     let promise = new Promise(function (resolve, reject) {
       requestMap[requestId] = { resolve: resolve, reject: reject };
     });
+
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this.cardTextFieldRef),
       // UIManager.PaymentCardTextField.Commands.getPaymentIntent,
-      UIManager.PaymentCardTextField.Commands.getPaymentIntent,
+      UIManager.TPSCardField.Commands.getPaymentIntent,
       [requestId]
     )
 
@@ -164,13 +166,17 @@ export default class PaymentCardTextField extends Component {
 
 
 
+  /**  
+   * native event to fake promise
+   */
   _onDataReturned = (event) => {
     // We grab the relevant data out of our event.
     let { requestId, result, error } = event.nativeEvent
-    console.log(requestId, result);
+
     // Then we get the promise we saved earlier for the given request ID.
     let promise = this._requestMap[requestId]
     if (result) {
+      console.log(result);
       // If it was successful, we resolve the promise.
       promise.resolve(result)
     } else {
@@ -182,38 +188,6 @@ export default class PaymentCardTextField extends Component {
   }
 
 
-  /**
- * Gets all annotations of the given type from the page.
- *
- * @param pageIndex The page to get the annotations for.
- * @param type The type of annotations to get (See here for types
- *        https://pspdfkit.com/guides/server/current/api/json-format/) or
- *        null to get all annotations.
- *
- * @returns A promise resolving an array with the following structure:
- *          [ instantJson ]
- */
-  getAnnotations(pageIndex, type) {
-    // Grab a new request id and our request map.
-    let requestId = this._nextRequestId++;
-    let requestMap = this._requestMap;
-
-    // We create a promise here that will be resolved once _onRequestDone is
-    // called.
-    let promise = new Promise(function (resolve, reject) {
-      requestMap[requestId] = { resolve: resolve, reject: reject };
-    });
-
-    // Now just dispatch the command as before, adding the request ID to the
-    // parameters.
-    UIManager.dispatchViewManagerCommand(
-      findNodeHandle(this.cardTextFieldRef),
-      UIManager.PaymentCardTextField.Commands.getAnnotations,
-      [requestId, pageIndex, type]
-    );
-
-    return promise;
-  }
 
   isFocused = () => TextInputState.currentlyFocusedField() === findNodeHandle(this.cardTextFieldRef)
 
@@ -331,7 +305,7 @@ export default class PaymentCardTextField extends Component {
             expirationPlaceholder={expirationPlaceholder}
             cvcPlaceholder={cvcPlaceholder}
             onChange={this.handleChange}
-            onDataReturned={this._onDataReturned}
+            // onDataReturned={this._onDataReturned}
             onPaymentIntent={this._onDataReturned}
             // iOS only
             cursorColor={cursorColor}
@@ -344,6 +318,7 @@ export default class PaymentCardTextField extends Component {
             securityCode={securityCode}
           />
         </TouchableWithoutFeedback>
+        <Button onPress={this.getPaymentIntent} title="pay pay" />
       </View>
     )
   }

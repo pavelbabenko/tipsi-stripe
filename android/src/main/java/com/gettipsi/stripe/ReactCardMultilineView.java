@@ -1,10 +1,8 @@
 package com.gettipsi.stripe;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -14,6 +12,9 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.gettipsi.stripe.util.Converters;
+import com.stripe.android.ApiResultCallback;
+import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.view.CardInputListener;
 import com.stripe.android.view.CardMultilineWidget;
@@ -62,15 +63,30 @@ public class ReactCardMultilineView extends FrameLayout {
     cardInputWidget.setShouldShowPostalCode(enabled);
   }
 
-  public void getPaymentIntent(int requestId) {
+  public void getPaymentIntent(final int requestId) {
     PaymentMethodCreateParams paymentMethodCreateParams = cardInputWidget.getPaymentMethodCreateParams();
 
-    WritableMap event = Arguments.createMap();
-    event.putInt("requestId", requestId);
-    event.putMap("result", currentParams);
+    StripeModule.getInstance().getStripe().createPaymentMethod(
+      paymentMethodCreateParams,
+      new ApiResultCallback<PaymentMethod>() {
 
-    reactContext.getJSModule(RCTEventEmitter.class)
-      .receiveEvent(getId(), "getPaymentIntent", event);
+        @Override
+        public void onError(Exception error) {
+//          doneButton.setEnabled(true);
+//          progressBar.setVisibility(View.GONE);
+//          showToast(error.getLocalizedMessage());
+        }
+
+        @Override
+        public void onSuccess(PaymentMethod paymentMethod) {
+          WritableMap event = Arguments.createMap();
+          event.putInt("requestId", requestId);
+          WritableMap result =Converters.convertPaymentMethodToWritableMap(paymentMethod);
+          event.putMap("result", result);
+          reactContext.getJSModule(RCTEventEmitter.class)
+            .receiveEvent(getId(), "getPaymentIntent", event);
+        }
+      });
   }
 
   private void setListeners(final CardMultilineWidget view) {
@@ -169,10 +185,6 @@ public class ReactCardMultilineView extends FrameLayout {
     currentParams.putInt(EXP_MONTH, currentMonth);
     currentParams.putInt(EXP_YEAR, currentYear);
     currentParams.putString(CCV, currentCCV);
-
-
-    // reactContext.getJSModule(RCTEventEmitter.class)
-    //   .receiveEvent(getId(),"topChange",currentParams);
 
     reactContext
       .getNativeModule(UIManagerModule.class)

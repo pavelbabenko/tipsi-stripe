@@ -56,16 +56,11 @@ public class ReactCardMultilineManager extends BaseViewManager {
     return MapBuilder.of("getPaymentIntent", COMMAND_GET_PAYMENT_INTENT);
   }
 
-
   @Override
-  public @Nullable Map getExportedCustomDirectEventTypeConstants() {
+  public Map getExportedCustomDirectEventTypeConstants() {
     return MapBuilder.of(
       "getPaymentIntent",
       MapBuilder.of("registrationName", "onPaymentIntent")
-//      "load",
-//      MapBuilder.of("registrationName", "onGLLoad"),
-//      "progress",
-//      MapBuilder.of("registrationName", "onGLProgress")
     );
   }
 
