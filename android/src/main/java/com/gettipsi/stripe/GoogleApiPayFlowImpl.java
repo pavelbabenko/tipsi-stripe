@@ -98,7 +98,8 @@ public final class GoogleApiPayFlowImpl extends PayFlow {
       .setPaymentMethodTokenizationType(WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
       .addParameter("gateway", "stripe")
       .addParameter("stripe:publishableKey", getPublishableKey())
-      .addParameter("stripe:version", BuildConfig.VERSION_NAME)
+      // unable to find similar replacement for version name
+//      .addParameter("stripe:version", BuildConfig.VERSION_NAME)
       .build();
   }
 
