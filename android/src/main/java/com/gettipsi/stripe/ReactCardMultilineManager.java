@@ -29,9 +29,9 @@ public class ReactCardMultilineManager extends BaseViewManager {
     view.setEnabledFromJS(enabled);
   }
 
-  @ReactProp(name = "postalCodeEntryEnabled", defaultBoolean = true)
-  public void setPostalCodeEntryEnabled(ReactCardMultilineView view, boolean enabled) {
-    view.setPostalCodeEnabledFromJS(enabled);
+  @ReactProp(name = "shouldShowPostalCode", defaultBoolean = true)
+  public void setShouldShowPostalCode(ReactCardMultilineView view, boolean enabled) {
+    view.setShouldShowPostalCode(enabled);
   }
 
   @Override

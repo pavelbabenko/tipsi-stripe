@@ -60,12 +60,11 @@ public class ReactCardMultilineView extends FrameLayout {
 
   }
 
-
   public void setEnabledFromJS(boolean enabled) {
     cardInputWidget.setEnabled(enabled);
   }
 
-  public void setPostalCodeEnabledFromJS(boolean enabled) {
+  public void setShouldShowPostalCode(boolean enabled) {
     cardInputWidget.setShouldShowPostalCode(enabled);
   }
 
