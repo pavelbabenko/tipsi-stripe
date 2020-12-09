@@ -9,22 +9,12 @@ React Native Stripe binding for iOS/Android platforms
 ### PaymentIntents & SetupIntents
 
 Have no fear, it's on its way!
+  
+We are actively preparing for a September 1 stable release in time for the European SCA regulation deadline of September 14.
 
-It takes to much resources to release stable version but you can use beta release (and some companies already have been using it since september). It has support for SCA-ready API's and support for some newer features.
-
-Latest beta release is: [8.0.0-beta.11](/CHANGELOG.md)
-
-To upgrade:
-
-```
-# package.json
-"tipsi-stripe": "^8.0.0-beta.11"
-
-# Make sure you are running Stripe 19.0.1 or later
-# ios/Podfile
-pod 'Stripe', '~> 19.0.1'
-pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
-```
+In the meantime, if your company would like early access to the beta and help with the new changes,
+please sign up here and let us know what company it is for:  
+https://github.com/tipsi/tipsi-stripe/issues/448
 
 Then, join our Discord channel to access the beta, to get support from the contributors, and to help us 
 be aware of any issues you find.  Here is the invite link: https://discord.gg/8g6ppq2

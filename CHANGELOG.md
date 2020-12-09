@@ -1,19 +1,16 @@
 # Changelog
 
-## [8.0.0-beta.10] - 2020-10-02
+## [8.0.12] - 2020-12-03 
+- Replaced android creditCardInput to official Stripe.CardInputWidget
+- Removed createTokenWithBankAccount
+- Bump stripe-android from 10x to 14.5
+- Fix invalid master card series 2, and UnionPay 67xx
 
-- Fix ios billing address [#640](https://github.com/tipsi/tipsi-stripe/pull/640)
-
-
-## [8.0.0-beta.10] - 2020-04-02
-
-- Fix ios billingDetails [#592](https://github.com/tipsi/tipsi-stripe/pull/592)
-- Fixed compilation error for 8.0.0.beta9 due to fpx issue [#628](https://github.com/tipsi/tipsi-stripe/pull/628)
-- Upgrade tipsi-android to 1.4.6 [#563](https://github.com/tipsi/tipsi-stripe/pull/563)
-- Fix build on xcode 11.4 [#563](https://github.com/tipsi/tipsi-stripe/pull/563)
+### Note:
+- Behaviour change: Previously, the done button will be disable, if any of the input is incomplete or wrong, now it will enable when the input is complete, but won't disable by itself if user makes any changes.
 
 
-## [8.0.0-beta.9] - 2019-09-01
+## [8.0.0] - 2019-09-01
 
 ### Android
 
@@ -58,6 +55,7 @@
 
 - Added .circleci config
 - Added eslint & prettier config
+
 
 ## [7.5.0] - 2019-04-22
 
