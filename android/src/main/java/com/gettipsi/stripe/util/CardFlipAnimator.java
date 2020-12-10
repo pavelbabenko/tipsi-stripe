@@ -20,11 +20,13 @@ public class CardFlipAnimator {
     private Animator animator2;
     private Animator animator3;
     private Animator animator4;
+    private String state;
 
     public CardFlipAnimator(final Context context, final ImageView imageViewCardFront, final ImageView imageViewCardBack){
         this.context = context;
         this.imageViewCardFront = imageViewCardFront;
         this.imageViewCardBack = imageViewCardBack;
+        this.state = "front";
         init();
     }
 
@@ -40,12 +42,18 @@ public class CardFlipAnimator {
     }
 
     public void showBack(){
+        this.state = "back";
         animator1.start();
         animator2.start();
     }
 
     public void showFront(){
+        this.state = "front";
         animator3.start();
         animator4.start();
+    }
+
+    public String getState(){
+        return this.state;
     }
 }

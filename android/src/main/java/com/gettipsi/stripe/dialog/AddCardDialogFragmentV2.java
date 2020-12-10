@@ -102,6 +102,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
     });
     doneButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
     dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+    doneButton.setAlpha(0.30f);
     doneButton.setEnabled(false);
 
     bindViews(view);
@@ -129,12 +130,13 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
 
 
   private void init() {
+    cardInputWidget.setPostalCodeEnabled(false);
     cardInputWidget.setCardInputListener(new CardInputListener() {
       @Override
       public void onFocusChange(@NotNull String s) {
         if (s == Companion.FOCUS_CVC) {
           cardFlipAnimator.showBack();
-        } else {
+        } else if (cardFlipAnimator.getState() == "back") {
           cardFlipAnimator.showFront();
         }
       }
@@ -152,6 +154,7 @@ public class AddCardDialogFragmentV2 extends DialogFragment {
       @Override
       public void onCvcComplete() {
         doneButton.setEnabled(true);
+        doneButton.setAlpha(1f);
       }
     });
 
